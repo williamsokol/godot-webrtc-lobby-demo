@@ -8,17 +8,18 @@ var peer = ENetMultiplayerPeer.new()
 @export var player_scene:PackedScene 
 
 func _ready() -> void:
-	await Multiplayer.noray_connected
-	oid_lbl.text = Noray.oid
+	for i in GameManager.Players:
+		print(i)
+		_add_player(int(i))
 
 func _on_host_pressed() -> void:
-	Multiplayer.host()
+	#Multiplayer.host()
 	#peer.create_server(135)
 	#multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(_add_player)
 	_add_player()
 	
-func _add_player(id = 1):
+func _add_player(id:int = 1):
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	call_deferred("add_child",player)

@@ -145,9 +145,10 @@ func _on_start_client_button_down() -> void:
 func _on_button_button_down() -> void:
 	ping.rpc()
 	pass # Replace with function body.
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func ping():
 	print("ping from " + str(multiplayer.get_remote_sender_id()))
+	get_tree().change_scene_to_file("res://multiplayer_test.tscn")
 
 func _on_join_lobby_button_down() -> void:
 	var message = {
