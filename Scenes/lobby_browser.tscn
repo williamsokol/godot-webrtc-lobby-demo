@@ -1,0 +1,376 @@
+[gd_scene load_steps=13 format=3 uid="uid://citqsirswqmtj"]
+
+[ext_resource type="Script" uid="uid://d4imjdnuy5asc" path="res://Scripts/lobby_browser.gd" id="1_ecbm3"]
+[ext_resource type="Script" uid="uid://l3grb1t3dou8" path="res://Scripts/Client.gd" id="2_snhj3"]
+[ext_resource type="Script" uid="uid://4i6kwepg8ndd" path="res://Scripts/Server.gd" id="3_ctocc"]
+[ext_resource type="PackedScene" uid="uid://37bjffvxim5q" path="res://Scenes/LobbyButton.tscn" id="4_n8ije"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n8ije"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3snjd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v1rvw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cl4ci"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0omge"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jmb0t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucf6i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctocc"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ecbm3")
+lobbyContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer")
+searchBar = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
+
+[node name="Client" type="Node" parent="." node_paths=PackedStringArray("lineEdit")]
+script = ExtResource("2_snhj3")
+serverIP = "127.0.0.1"
+autoConnectToServer = true
+lineEdit = NodePath("../Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
+
+[node name="Server" type="Node" parent="."]
+script = ExtResource("3_ctocc")
+hostPort = null
+
+[node name="Main Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n8ije")
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Main Panel/MarginContainer"]
+layout_mode = 2
+split_offset = 625
+dragging_enabled = false
+
+[node name="Left PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_3snjd")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer"]
+layout_mode = 2
+split_offset = 495
+
+[node name="ActiveLobbies Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VSplitContainer2" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer"]
+layout_mode = 2
+split_offset = 2000
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2"]
+layout_mode = 2
+dragging_enabled = false
+
+[node name="Label" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer"]
+layout_mode = 2
+text = "Active Lobbies"
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer"]
+layout_mode = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+dragging_enabled = false
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="LobbyLabels" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_v1rvw")
+
+[node name="MarginContainer2" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2"]
+z_index = 1
+layout_mode = 2
+alignment = 1
+
+[node name="Game Name" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Game Name:"
+
+[node name="spacer" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Map" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Map:"
+
+[node name="spacer2" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="Players" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Players:"
+
+[node name="spacer3" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="Host" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Host:"
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LobbyButton PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_n8ije")]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cl4ci")
+
+[node name="MarginContainer" type="CenterContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LineEdit" type="LineEdit" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+placeholder_text = "Select Game"
+
+[node name="JoinLobby" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Join Game"
+
+[node name="Control" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="RefreshButton" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/Control"]
+layout_mode = 1
+offset_left = 136.0
+offset_top = -6.0
+offset_right = 219.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 20
+text = "Refresh"
+
+[node name="CreateLobby Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0omge")
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jmb0t")
+
+[node name="CenterContainer" type="CenterContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Button" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Load Game"
+
+[node name="Button2" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/CreateLobby Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Create Lobby"
+
+[node name="Right Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ucf6i")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+split_offset = 460
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
+layout_mode = 2
+
+[node name="Back Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0omge")
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 170
+theme_override_constants/margin_top = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Go Back"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 661.0
+offset_top = -514.0
+offset_right = 661.0
+offset_bottom = -259.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ctocc")
+
+[node name="Control" type="Control" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="StartClient" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 50.0
+offset_right = 137.0
+offset_bottom = 81.0
+text = "Start Client"
+
+[node name="StartServer" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 50.0
+offset_right = 451.0
+offset_bottom = 81.0
+text = "Start Server"
+
+[node name="Button" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 100.0
+offset_right = 181.0
+offset_bottom = 131.0
+text = "Send Test Packet"
+
+[node name="Button2" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 321.0
+offset_top = 100.0
+offset_right = 460.0
+offset_bottom = 131.0
+text = "Send Test Packet"
+
+[node name="JoinLobby" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 153.0
+offset_right = 131.0
+offset_bottom = 184.0
+text = "Join Lobby"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/Control/JoinLobby"]
+layout_mode = 0
+offset_left = 139.0
+offset_right = 326.0
+offset_bottom = 31.0
+
+[node name="GetLobby" type="Button" parent="PanelContainer/Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 203.0
+offset_right = 129.0
+offset_bottom = 234.0
+text = "Get Lobby"
+
+[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/JoinLobby" to="." method="_on_join_lobby_button_down"]
+[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/Control/RefreshButton" to="Client" method="_on_get_lobby_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/StartClient" to="Client" method="_on_start_client_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/StartServer" to="Server" method="_on_start_server_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/Button" to="Client" method="_on_button_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/Button2" to="Server" method="_on_button_2_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/JoinLobby" to="Client" method="_on_join_lobby_button_down"]
+[connection signal="button_down" from="PanelContainer/Control/GetLobby" to="Client" method="_on_get_lobby_button_down"]

@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3uoysna4cbrr"]
+
+[ext_resource type="Script" uid="uid://bao7kiaf5lavn" path="res://Scripts/multiplayer_test.gd" id="1_xg4sd"]
+[ext_resource type="PackedScene" uid="uid://drj37tsyl5gt1" path="res://Scenes/basic_player.tscn" id="2_l7xv7"]
+
+[node name="Multiplayer_Test" type="Node2D"]
+script = ExtResource("1_xg4sd")
+player_scene = ExtResource("2_l7xv7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 39.0
+offset_top = 374.0
+offset_right = 161.0
+offset_bottom = 545.0
+
+[node name="host" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "host"
+
+[node name="CopyOID" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "CopyOID
+"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="OIDInput" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Host OID"
+
+[node name="join" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "join"
+
+[node name="OID" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Loading ..."
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://drj37tsyl5gt1")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="VBoxContainer/host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
+[connection signal="pressed" from="VBoxContainer/join" to="." method="_on_join_pressed"]

@@ -1,28 +1,33 @@
 extends Node
+class_name Client
 
-enum Message{
-	id,
-	join,
-	userConnected,
-	userDisconnected,
-	lobby,
-	candidate,
-	offer,
-	answer,
-	checkIn
-}
+var Message := Multiplayer.Message
 
 var peer = WebSocketMultiplayerPeer.new()
 var id = 0
 var rtcPeer:WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
 var hostId:int
 var lobbyValue = ""
+var lobbies:Dictionary = {}
+
+signal connectedToWSServer
+signal lobbyUpdate
+
+@export var serverIP:String = "159.54.178.76"
+@export var serverPort:String = "8915"
+@export var autoConnectToServer:bool = false
+@export var lineEdit:LineEdit
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	multiplayer.connected_to_server.connect(RTCServerConnected)
 	multiplayer.peer_connected.connect(RTCPeerConnected)
 	multiplayer.peer_disconnected.connect(RTCPeerDisonnected)
-	pass # Replace with function body.
+	
+	if(autoConnectToServer):
+		connectToServer(serverIP)
+	
+	pass
 func RTCServerConnected():
 	print("RTC server connected")
 func RTCPeerConnected(id):
@@ -39,20 +44,22 @@ func _process(delta: float) -> void:
 			var dataString = packet.get_string_from_utf8()
 			var data = JSON.parse_string(dataString)
 			print(data)
+			
 			if data.message == Message.id:
 				id = data.id
 				connected(id)
 				print("My id is: " + str(id))
-				
 			if data.message == Message.userConnected:
 				#GameManager.Players[data.id] = data.player	
 				createPeer(data.id)
-				
 			if data.message == Message.lobby:
 				hostId = data.host
 				lobbyValue = data.lobbyValue
 				GameManager.Players = JSON.parse_string(data.players)
-				
+			if data.message == Message.getLobbies:
+				for i in data.lobbies:
+					lobbies[i] = Lobby.from_dict(data.lobbies[i])
+				lobbyUpdate.emit(lobbies)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
 					print("Got candidate " + str(data.orgPeer) + "my id is " + str(self.id))
@@ -67,7 +74,7 @@ func _process(delta: float) -> void:
 func connected(id):
 	rtcPeer.create_mesh(id)
 	multiplayer.multiplayer_peer = rtcPeer
-
+	connectedToWSServer.emit()
 # webrtc connection stuff
 func createPeer(id):
 	if id != self.id:
@@ -128,7 +135,7 @@ func iceCandidateCreated(midName, indexName, sdpName, id):
 	pass
 
 func connectToServer(ip):
-	var resp = peer.create_client("ws://159.54.178.76:8915")
+	var resp = peer.create_client("ws://"+ip+":8915")
 	if resp == OK:
 		print("Client created successfully")
 	else:
@@ -138,24 +145,35 @@ func connectToServer(ip):
 
 
 func _on_start_client_button_down() -> void:
-	connectToServer("")
+	connectToServer(serverIP)
 	pass # Replace with function body.
 
 
 func _on_button_button_down() -> void:
-	ping.rpc()
+	StartGame.rpc()
 	pass # Replace with function body.
 @rpc("any_peer", "call_local")
-func ping():
+func StartGame():
 	print("ping from " + str(multiplayer.get_remote_sender_id()))
-	get_tree().change_scene_to_file("res://multiplayer_test.tscn")
+	get_tree().change_scene_to_file("res://Scenes/multiplayer_test.tscn")
 
 func _on_join_lobby_button_down() -> void:
+	join_lobby(lineEdit.text)
+	pass # Replace with function body.
+func join_lobby(lobbyValue:String) -> void:
 	var message = {
 		"id" : id,
 		"message" : Message.lobby,
 		"name" : "",
-		"lobbyValue" : $LineEdit.text
+		"lobbyValue" : lobbyValue
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
-	pass # Replace with function body.
+	
+func _on_get_lobby_button_down() -> void:
+	var message = {
+		"message" : Message.getLobbies,
+		"orgPeer" : self.id,
+		"name" : "",
+		#"lobbyValue" : $LineEdit.text
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())

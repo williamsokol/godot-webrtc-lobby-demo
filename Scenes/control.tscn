@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdlqs7oran8i5"]
 
-[ext_resource type="Script" uid="uid://l3grb1t3dou8" path="res://Client.gd" id="1_62e2m"]
-[ext_resource type="Script" uid="uid://4i6kwepg8ndd" path="res://Server.gd" id="2_qtu10"]
+[ext_resource type="Script" uid="uid://l3grb1t3dou8" path="res://Scripts/Client.gd" id="2_wpaqk"]
+[ext_resource type="Script" uid="uid://4i6kwepg8ndd" path="res://Scripts/Server.gd" id="3_btyrf"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,24 +11,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Client" type="Node" parent="."]
-script = ExtResource("1_62e2m")
+[node name="Client" type="Node" parent="." node_paths=PackedStringArray("lineEdit")]
+script = ExtResource("2_wpaqk")
+serverIP = "127.0.0.1"
+lineEdit = NodePath("LineEdit")
 
 [node name="LineEdit" type="LineEdit" parent="Client"]
 offset_left = 183.0
-offset_top = 164.0
+offset_top = 153.0
 offset_right = 370.0
-offset_bottom = 195.0
+offset_bottom = 184.0
 
 [node name="Server" type="Node" parent="."]
-script = ExtResource("2_qtu10")
+script = ExtResource("3_btyrf")
+hostPort = null
 
 [node name="StartClient" type="Button" parent="."]
 layout_mode = 0
 offset_left = 42.0
-offset_top = 54.0
+offset_top = 50.0
 offset_right = 137.0
-offset_bottom = 85.0
+offset_bottom = 81.0
 text = "Start Client"
 
 [node name="StartServer" type="Button" parent="."]
@@ -41,10 +44,10 @@ text = "Start Server"
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 114.0
-offset_right = 171.0
-offset_bottom = 145.0
+offset_left = 42.0
+offset_top = 100.0
+offset_right = 181.0
+offset_bottom = 131.0
 text = "Send Test Packet"
 
 [node name="Button2" type="Button" parent="."]
@@ -57,14 +60,23 @@ text = "Send Test Packet"
 
 [node name="JoinLobby" type="Button" parent="."]
 layout_mode = 0
-offset_left = 48.0
-offset_top = 158.0
-offset_right = 137.0
-offset_bottom = 189.0
+offset_left = 42.0
+offset_top = 153.0
+offset_right = 131.0
+offset_bottom = 184.0
 text = "Join Lobby"
+
+[node name="GetLobby" type="Button" parent="."]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 203.0
+offset_right = 129.0
+offset_bottom = 234.0
+text = "Get Lobby"
 
 [connection signal="button_down" from="StartClient" to="Client" method="_on_start_client_button_down"]
 [connection signal="button_down" from="StartServer" to="Server" method="_on_start_server_button_down"]
 [connection signal="button_down" from="Button" to="Client" method="_on_button_button_down"]
 [connection signal="button_down" from="Button2" to="Server" method="_on_button_2_button_down"]
 [connection signal="button_down" from="JoinLobby" to="Client" method="_on_join_lobby_button_down"]
+[connection signal="button_down" from="GetLobby" to="Client" method="_on_get_lobby_button_down"]

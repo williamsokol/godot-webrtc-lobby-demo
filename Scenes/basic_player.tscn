@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://drj37tsyl5gt1"]
 
-[ext_resource type="Script" uid="uid://clregp6e8xhyf" path="res://basic_player.gd" id="1_ffn7p"]
+[ext_resource type="Script" uid="uid://clregp6e8xhyf" path="res://Scripts/basic_player.gd" id="1_ffn7p"]
 [ext_resource type="Texture2D" uid="uid://hfjjdhc336o6" path="res://icon.svg" id="2_skmdc"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ffn7p"]

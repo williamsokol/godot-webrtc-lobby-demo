@@ -1,19 +1,10 @@
 extends Node
 
-enum Message{
-	id,
-	join,
-	userConnected,
-	userDisconnected,
-	lobby,
-	candidate,
-	offer,
-	answer,
-	checkIn
-}
+var Message = Multiplayer.Message
+
 var peer = WebSocketMultiplayerPeer.new() 
 var users = {}
-var lobbies = {}
+var lobbies:Dictionary = {}
 
 var Characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 @export var hostPort = 8915
@@ -22,7 +13,6 @@ func _ready() -> void:
 	if "--server" in OS.get_cmdline_args():
 		print("hosting on " + str(hostPort))
 		peer.create_server(hostPort)
-		
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
 	pass # Replace with function body.
@@ -43,6 +33,16 @@ func _process(delta: float) -> void:
 			if data.message == Message.offer || data.message == Message.answer || data.message == Message.candidate:
 				print("source id is " + str(data.orgPeer))
 				sendToPlayer(data.peer,data)
+			if data.message == Message.getLobbies:
+				var serialziedLobbies:Dictionary = {}
+				for i in lobbies:
+					serialziedLobbies[i] = lobbies[i].to_dict()
+				var message = {
+					"message" : Message.getLobbies,
+					"lobbies" : serialziedLobbies
+				}
+				sendToPlayer(data.orgPeer,message)
+				pass
 	pass
 
 func peer_connected(id):
@@ -60,7 +60,7 @@ func JoinLobby(user):
 	var result = ""
 	if user.lobbyValue == "":
 		user.lobbyValue = generateRandomString()
-		lobbies[user.lobbyValue] = Lobby.new(user.id)
+		lobbies[user.lobbyValue] = Lobby.new(user.id, user.lobbyValue)
 		print(user.lobbyValue) 
 	var player = lobbies[user.lobbyValue].AddPlayer(user.id, user.name)
 	
@@ -89,7 +89,7 @@ func JoinLobby(user):
 		"message" : Message.userConnected,
 		"id" : user.id,
 		"host" : lobbies[user.lobbyValue].HostID,
-		"player" : lobbies[user.lobbyValue].Players[user.id],
+		"player" : lobbies[user.lobbyValue].Players[int(user.id)],
 		"lobbyValue" : user.lobbyValue
 	}
 	sendToPlayer(user.id,data)

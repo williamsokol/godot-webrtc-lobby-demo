@@ -34,4 +34,5 @@ func _on_join_pressed() -> void:
 
 
 func _on_copy_oid_pressed() -> void:
-	DisplayServer.clipboard_set(Noray.oid)
+	pass
+	#DisplayServer.clipboard_set(Noray.oid)
