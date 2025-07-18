@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cedgr2uwqd2x1"]
+
+[ext_resource type="Script" uid="uid://l3grb1t3dou8" path="res://Scripts/Client.gd" id="1_q0fa7"]
+
+[node name="Client" type="Node"]
+script = ExtResource("1_q0fa7")
+serverIP = "127.0.0.1"
+autoConnectToServer = true

@@ -7,9 +7,9 @@ var MapImg:Image
 var GameName:String = "no name rn"
 var Players:Dictionary
 var LobbyValue:String
-var LobbyMax:int = 10
+var LobbyMax:int = 6
 
-func _init(id,lobbyValue) -> void:
+func _init(id:int = 0,lobbyValue = "") -> void:
 	HostID = id
 	LobbyValue = lobbyValue
 	
@@ -22,6 +22,7 @@ func AddPlayer(id:int, name):
 	return Players[id]
 	
 func to_dict():
+	return var_to_str(self)
 	return {
 		"HostID": HostID,
 		"Map" : Map,

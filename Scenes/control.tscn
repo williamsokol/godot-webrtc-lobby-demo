@@ -24,7 +24,6 @@ offset_bottom = 184.0
 
 [node name="Server" type="Node" parent="."]
 script = ExtResource("3_btyrf")
-hostPort = null
 
 [node name="StartClient" type="Button" parent="."]
 layout_mode = 0

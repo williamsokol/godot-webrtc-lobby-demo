@@ -1,44 +1,32 @@
-[gd_scene load_steps=12 format=3 uid="uid://0vs05yfte00t"]
+[gd_scene load_steps=9 format=3 uid="uid://0vs05yfte00t"]
 
-[ext_resource type="Script" uid="uid://d4imjdnuy5asc" path="res://Scripts/lobby_browser.gd" id="1_avk8s"]
-[ext_resource type="Script" uid="uid://l3grb1t3dou8" path="res://Scripts/Client.gd" id="2_ruji2"]
-[ext_resource type="Script" uid="uid://4i6kwepg8ndd" path="res://Scripts/Server.gd" id="3_jigxi"]
-[ext_resource type="PackedScene" uid="uid://37bjffvxim5q" path="res://Scenes/LobbyButton.tscn" id="4_4233d"]
+[ext_resource type="Script" uid="uid://bwgri01wnr7jg" path="res://Scenes/LobbyManager.gd" id="1_u1o2k"]
+[ext_resource type="Script" uid="uid://1ewo07xt52ok" path="res://Scenes/Chat.gd" id="3_avk8s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n8ije"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3snjd"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v1rvw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cl4ci"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0omge"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ruji2"]
+properties/0/path = NodePath("PanelContainer/MarginContainer/VBoxContainer/PanelContainer/TextEdit:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucf6i"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctocc"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar")]
+[node name="Control" type="Control" node_paths=PackedStringArray("playerSlotContainer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_avk8s")
-lobbyContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer")
-searchBar = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
-
-[node name="Client" type="Node" parent="." node_paths=PackedStringArray("lineEdit")]
-script = ExtResource("2_ruji2")
-serverIP = "127.0.0.1"
-autoConnectToServer = true
-lineEdit = NodePath("../Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
-
-[node name="Server" type="Node" parent="."]
-script = ExtResource("3_jigxi")
-hostPort = null
+script = ExtResource("1_u1o2k")
+playerSlotContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer")
 
 [node name="Main Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -95,104 +83,24 @@ dragging_enabled = false
 [node name="Label" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer"]
 layout_mode = 2
 text = "Active Lobbies"
+horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer"]
 layout_mode = 2
 
-[node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-dragging_enabled = false
-
-[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer"]
-layout_mode = 2
-
-[node name="MarginContainer2" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
-
-[node name="LobbyLabels" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_v1rvw")
-
-[node name="MarginContainer2" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2"]
-z_index = 1
-layout_mode = 2
-alignment = 1
-
-[node name="Game Name" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-text = "Game Name:"
-
-[node name="spacer" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Map" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-text = "Map:"
-
-[node name="spacer2" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="Players" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-text = "Players:"
-
-[node name="spacer3" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="Host" type="Label" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/PanelContainer/MarginContainer2/LobbyLabels/MarginContainer2/HBoxContainer"]
-layout_mode = 2
-text = "Host:"
-
-[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="LobbyButton PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_4233d")]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2"]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_cl4ci")
-
-[node name="MarginContainer" type="CenterContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="LineEdit" type="LineEdit" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-placeholder_text = "Select Game"
-
-[node name="JoinLobby" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(120, 30)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-text = "Join Game"
 
 [node name="Control" type="Control" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer"]
 layout_mode = 2
@@ -201,6 +109,7 @@ size_flags_vertical = 0
 mouse_filter = 2
 
 [node name="RefreshButton" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/Control"]
+visible = false
 layout_mode = 1
 offset_left = 136.0
 offset_top = -6.0
@@ -209,9 +118,12 @@ offset_bottom = 30.0
 theme_override_font_sizes/font_size = 20
 text = "Refresh"
 
-[node name="Chat Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer"]
+[node name="Chat Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer" node_paths=PackedStringArray("lineEdit", "chatLog")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_0omge")
+script = ExtResource("3_avk8s")
+lineEdit = NodePath("PanelContainer/MarginContainer/VBoxContainer/LineEdit")
+chatLog = NodePath("PanelContainer/MarginContainer/VBoxContainer/PanelContainer/TextEdit")
 
 [node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/Chat Panel"]
 layout_mode = 2
@@ -238,10 +150,13 @@ dfffffffffffff"
 editable = false
 wrap_mode = 1
 autowrap_mode = 1
-scroll_past_end_of_file = true
 
 [node name="LineEdit" type="LineEdit" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/Chat Panel/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+keep_editing_on_text_submit = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/Chat Panel"]
+replication_config = SubResource("SceneReplicationConfig_ruji2")
 
 [node name="Right Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer"]
 layout_mode = 2
@@ -355,12 +270,3 @@ offset_top = 203.0
 offset_right = 129.0
 offset_bottom = 234.0
 text = "Get Lobby"
-
-[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/JoinLobby" to="." method="_on_join_lobby_button_down"]
-[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/Control/RefreshButton" to="Client" method="_on_get_lobby_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/StartClient" to="Client" method="_on_start_client_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/StartServer" to="Server" method="_on_start_server_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/Button" to="Client" method="_on_button_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/Button2" to="Server" method="_on_button_2_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/JoinLobby" to="Client" method="_on_join_lobby_button_down"]
-[connection signal="button_down" from="PanelContainer/Control/GetLobby" to="Client" method="_on_get_lobby_button_down"]

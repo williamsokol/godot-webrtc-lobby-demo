@@ -1,5 +1,5 @@
-extends Node
 class_name Client
+extends Node
 
 var Message := Multiplayer.Message
 
@@ -9,9 +9,11 @@ var rtcPeer:WebRTCMultiplayerPeer = WebRTCMultiplayerPeer.new()
 var hostId:int
 var lobbyValue = ""
 var lobbies:Dictionary = {}
+var player:Player
 
 signal connectedToWSServer
 signal lobbyUpdate
+signal recivedLobbyValue
 
 @export var serverIP:String = "159.54.178.76"
 @export var serverPort:String = "8915"
@@ -23,6 +25,11 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(RTCServerConnected)
 	multiplayer.peer_connected.connect(RTCPeerConnected)
 	multiplayer.peer_disconnected.connect(RTCPeerDisonnected)
+	
+	GameManager.client = self
+	
+	# TEMP MAKE PLAYER HERE
+	player = Player.new("bobojo")
 	
 	if(autoConnectToServer):
 		connectToServer(serverIP)
@@ -56,9 +63,10 @@ func _process(delta: float) -> void:
 				hostId = data.host
 				lobbyValue = data.lobbyValue
 				GameManager.Players = JSON.parse_string(data.players)
+				recivedLobbyValue.emit()
 			if data.message == Message.getLobbies:
 				for i in data.lobbies:
-					lobbies[i] = Lobby.from_dict(data.lobbies[i])
+					lobbies[i] = str_to_var(data.lobbies[i])
 				lobbyUpdate.emit(lobbies)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
@@ -72,6 +80,7 @@ func _process(delta: float) -> void:
 					rtcPeer.get_peer(data.orgPeer).connection.set_remote_description("answer", data.data)
 
 func connected(id):
+	player.id = id
 	rtcPeer.create_mesh(id)
 	multiplayer.multiplayer_peer = rtcPeer
 	connectedToWSServer.emit()
@@ -157,8 +166,8 @@ func StartGame():
 	print("ping from " + str(multiplayer.get_remote_sender_id()))
 	get_tree().change_scene_to_file("res://Scenes/multiplayer_test.tscn")
 
-func _on_join_lobby_button_down() -> void:
-	join_lobby(lineEdit.text)
+func _on_join_lobby_button_down(text) -> void:
+	join_lobby(text)
 	pass # Replace with function body.
 func join_lobby(lobbyValue:String) -> void:
 	var message = {

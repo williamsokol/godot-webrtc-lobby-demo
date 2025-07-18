@@ -8,7 +8,7 @@ signal lobbySelected
 @export var gameName:Label
 @export var map:Label
 @export var players:Label
-const PlayerMax = 10
+const PlayerMax = 8
 @export var host:Label
 
 var lobby:Lobby

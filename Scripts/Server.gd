@@ -1,3 +1,4 @@
+class_name Server
 extends Node
 
 var Message = Multiplayer.Message
