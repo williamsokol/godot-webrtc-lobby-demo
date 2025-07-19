@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://0vs05yfte00t"]
+[gd_scene load_steps=11 format=3 uid="uid://0vs05yfte00t"]
 
 [ext_resource type="Script" uid="uid://bwgri01wnr7jg" path="res://Scripts/LobbyManager.gd" id="1_u1o2k"]
 [ext_resource type="PackedScene" uid="uid://cdv24rdwstxs" path="res://Scenes/LobbyPlayerSlot.tscn" id="2_avk8s"]
 [ext_resource type="Script" uid="uid://1ewo07xt52ok" path="res://Scripts/Chat.gd" id="3_avk8s"]
 [ext_resource type="PackedScene" uid="uid://26ngfyulwen7" path="res://Scenes/DeveloperPanel.tscn" id="3_u1o2k"]
+[ext_resource type="PackedScene" uid="uid://bias2iw0tc2e6" path="res://Scenes/LobbyGameInfoPanel.tscn" id="4_ruji2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n8ije"]
 
@@ -12,6 +13,16 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0omge"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucf6i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avk8s"]
+bg_color = Color(1, 1, 1, 0.121569)
+draw_center = false
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 0.137255)
+corner_detail = 1
 
 [node name="Control" type="Control" node_paths=PackedStringArray("playerSlotContainer")]
 layout_mode = 3
@@ -159,9 +170,9 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ucf6i")
 [node name="VSplitContainer" type="VSplitContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel"]
 layout_mode = 2
 theme_override_constants/separation = 0
-split_offset = 460
+split_offset = 420
 
-[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
+[node name="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer" instance=ExtResource("4_ruji2")]
 layout_mode = 2
 
 [node name="Back Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
@@ -178,15 +189,37 @@ layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avk8s")
 
-[node name="Button" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="StartGame" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Start Game"
+
+[node name="Back" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -194,6 +227,7 @@ size_flags_vertical = 4
 text = "Go Back"
 
 [node name="Developer PanelContainer" parent="." instance=ExtResource("3_u1o2k")]
+visible = false
 layout_mode = 1
 offset_left = 653.0
 offset_top = -506.0
@@ -203,3 +237,6 @@ offset_bottom = -251.0
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cdv24rdwstxs")
 spawn_path = NodePath("../Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer")
+
+[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_button_down"]
+[connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer/Back" to="." method="_on_back_button_down"]

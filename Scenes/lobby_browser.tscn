@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://citqsirswqmtj"]
+[gd_scene load_steps=12 format=3 uid="uid://citqsirswqmtj"]
 
 [ext_resource type="Script" uid="uid://d4imjdnuy5asc" path="res://Scripts/lobby_browser.gd" id="1_ecbm3"]
+[ext_resource type="PackedScene" uid="uid://bias2iw0tc2e6" path="res://Scenes/LobbyGameInfoPanel.tscn" id="3_0omge"]
 [ext_resource type="PackedScene" uid="uid://26ngfyulwen7" path="res://Scenes/DeveloperPanel.tscn" id="3_yple4"]
 [ext_resource type="PackedScene" uid="uid://37bjffvxim5q" path="res://Scenes/LobbyButton.tscn" id="4_n8ije"]
 
@@ -18,7 +19,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucf6i"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar")]
+[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar", "gameInfoPanel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +29,7 @@ grow_vertical = 2
 script = ExtResource("1_ecbm3")
 lobbyContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer")
 searchBar = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
+gameInfoPanel = NodePath("Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/LobbyGameInfoPanel")
 
 [node name="Main Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -250,7 +252,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 split_offset = 460
 
-[node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
+[node name="LobbyGameInfoPanel" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer" instance=ExtResource("3_0omge")]
 layout_mode = 2
 
 [node name="Back Panel" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer"]
@@ -275,7 +277,14 @@ theme_override_constants/margin_bottom = 20
 [node name="PanelContainer" type="PanelContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 12
+
+[node name="Button" type="Button" parent="Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/MarginContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -284,10 +293,10 @@ text = "Go Back"
 
 [node name="Developer PanelContainer" parent="Main Panel" instance=ExtResource("3_yple4")]
 layout_mode = 1
-offset_left = 649.0
-offset_top = -496.0
-offset_right = -16.0
-offset_bottom = -241.0
+offset_left = 101.0
+offset_top = -445.0
+offset_right = -564.0
+offset_bottom = -190.0
 
 [connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/JoinLobby" to="." method="_on_join_lobby_button_down"]
 [connection signal="button_down" from="Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/Control/RefreshButton" to="." method="_on_refresh_button_down"]

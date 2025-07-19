@@ -41,7 +41,11 @@ func RTCPeerConnected(id):
 	print("RTC peer connected " + str(id))
 func RTCPeerDisonnected(id):
 	print("RTC peer disconnected " + str(id))
-
+func DisconnectRTC():
+	var peers = multiplayer.get_peers()
+	for peerID in peers:
+		multiplayer.remove_peer(peerID)
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	peer.poll()

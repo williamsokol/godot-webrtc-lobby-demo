@@ -3,6 +3,7 @@ extends Control
 @onready var client:Client = GameManager.client
 @export var lobbyContainer:VBoxContainer
 @export var searchBar:LineEdit
+@export var gameInfoPanel:LobbyGameInfoPanel
 var selectedLobby:Lobby
 
 # Called when the node enters the scene tree for the first time.
@@ -26,6 +27,7 @@ func UpdateLobbies(lobbies):
 func SelectLobby(lobby:Lobby):
 	selectedLobby = lobby
 	searchBar.text = str(lobby.GameName)
+	gameInfoPanel.SetDisplayedLobby(lobby)
 	pass
 
 func ClearLobbies():

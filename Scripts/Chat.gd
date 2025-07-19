@@ -11,13 +11,14 @@ func _ready() -> void:
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ENTER && lineEdit.is_editing():
-			SendChat.rpc(lineEdit.text.replace('\n',""))
+			SendChat.rpc(lineEdit.text)
+			lineEdit.text = ""
 			
 @rpc("any_peer","call_local")
-func SendChat(text):
+func SendChat(text:String):
 	chatLog.text += "\n"  + text
 	chatLog.scroll_vertical = chatLog.get_line_count()
-	lineEdit.text = ""
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
