@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://cdv24rdwstxs"]
 
 [ext_resource type="Texture2D" uid="uid://u1r12ke54ts6" path="res://Art/Pixel.png" id="1_4cm1k"]
-[ext_resource type="Script" uid="uid://bi41qpgrf4oh3" path="res://Scenes/lobby_player_slot.gd" id="1_vdkcr"]
+[ext_resource type="Script" uid="uid://bi41qpgrf4oh3" path="res://Scripts/lobby_player_slot.gd" id="1_vdkcr"]
 [ext_resource type="Texture2D" uid="uid://c00sjfjxht1i6" path="res://Art/Pixel_Blue.png" id="2_jvddr"]
 [ext_resource type="Texture2D" uid="uid://d378y86gx6hur" path="res://Art/Pixel_Brown.png" id="3_5rpt6"]
 [ext_resource type="Texture2D" uid="uid://bv8e5j0bonih7" path="res://Art/Pixel_Green.png" id="4_vdkcr"]
@@ -58,13 +58,26 @@ atlas = ExtResource("9_ccm2j")
 region = Rect2(0, 0, 20, 20)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vdkcr"]
+properties/0/path = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Color:selected")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Player Name:selected")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Ping:text")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Player Name:popup/item_0/text")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
-[node name="LobbyButton PanelContainer" type="PanelContainer" node_paths=PackedStringArray("playerName", "color", "ping")]
+[node name="LobbyButton PanelContainer" type="PanelContainer" node_paths=PackedStringArray("playerName", "color", "ping", "ms")]
 theme_override_styles/panel = SubResource("StyleBoxFlat_vdkcr")
 script = ExtResource("1_vdkcr")
 playerName = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Player Name")
 color = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Color")
 ping = NodePath("MarginContainer/MarginContainer2/HBoxContainer/Ping")
+ms = NodePath("MultiplayerSynchronizer")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

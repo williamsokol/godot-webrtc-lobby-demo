@@ -38,10 +38,6 @@ text = "join"
 layout_mode = 2
 text = "Loading ..."
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://drj37tsyl5gt1")
-spawn_path = NodePath("..")
-
 [connection signal="pressed" from="VBoxContainer/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="VBoxContainer/CopyOID" to="." method="_on_copy_oid_pressed"]
 [connection signal="pressed" from="VBoxContainer/join" to="." method="_on_join_pressed"]

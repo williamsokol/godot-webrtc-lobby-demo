@@ -28,12 +28,7 @@ func _ready() -> void:
 	
 	#testing area:
 	
-	var testplayer1:Player = Player.new("jimmy")
-	var packed = var_to_str(testplayer1)
-	var testplayer2:Player = str_to_var(packed)
-	print(testplayer2.name)
-	pass
-
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

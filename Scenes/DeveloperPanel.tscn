@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://26ngfyulwen7"]
+
+[ext_resource type="Script" uid="uid://cmmy1ee2xo0tg" path="res://Scripts/NetworkControlPanel.gd" id="1_ek2vw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctocc"]
+
+[node name="Developer PanelContainer" type="PanelContainer" node_paths=PackedStringArray("lineEdit")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 661.0
+offset_top = -514.0
+offset_right = -4.0
+offset_bottom = -259.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ctocc")
+script = ExtResource("1_ek2vw")
+lineEdit = NodePath("Control/JoinLobby/LineEdit")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="StartClient" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 50.0
+offset_right = 137.0
+offset_bottom = 81.0
+text = "Start Client"
+
+[node name="StartServer" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 50.0
+offset_right = 451.0
+offset_bottom = 81.0
+text = "Start Server"
+
+[node name="StartGame" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 100.0
+offset_right = 181.0
+offset_bottom = 131.0
+text = "StartGame"
+
+[node name="Button2" type="Button" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 321.0
+offset_top = 100.0
+offset_right = 460.0
+offset_bottom = 131.0
+text = "Send Test Packet"
+
+[node name="JoinLobby" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 153.0
+offset_right = 131.0
+offset_bottom = 184.0
+text = "Join Lobby"
+
+[node name="LineEdit" type="LineEdit" parent="Control/JoinLobby"]
+layout_mode = 0
+offset_left = 139.0
+offset_right = 326.0
+offset_bottom = 31.0
+
+[node name="GetLobby" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 203.0
+offset_right = 129.0
+offset_bottom = 234.0
+text = "Get Lobby"
+
+[connection signal="button_down" from="Control/StartClient" to="." method="_on_start_client_button_down"]
+[connection signal="button_down" from="Control/StartServer" to="." method="_on_start_server_button_down"]
+[connection signal="button_down" from="Control/StartGame" to="." method="_on_start_game_button_down"]
+[connection signal="button_down" from="Control/JoinLobby" to="." method="_on_join_lobby_button_down"]
+[connection signal="button_down" from="Control/GetLobby" to="." method="_on_get_lobby_button_down"]
