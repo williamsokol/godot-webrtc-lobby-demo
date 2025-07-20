@@ -107,6 +107,9 @@ func generateRandomString():
 	return result
 
 func startServer():
+	if(peer.get_connection_status() != peer.CONNECTION_DISCONNECTED):
+		print("your ws server is already running")
+		return
 	peer.create_server(8915)
 	print("started Server")
 	

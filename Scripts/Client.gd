@@ -148,6 +148,9 @@ func iceCandidateCreated(midName, indexName, sdpName, id):
 	pass
 
 func connectToServer(ip):
+	if(peer.get_connection_status() != peer.CONNECTION_DISCONNECTED):
+		print("your websocket is already connected")
+		return
 	var resp = peer.create_client("ws://"+ip+":8915")
 	if resp == OK:
 		print("Client created successfully")
@@ -183,6 +186,9 @@ func join_lobby(lobbyValue:String) -> void:
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	
 func _on_get_lobby_button_down() -> void:
+	if (peer.get_connection_status() != peer.CONNECTION_CONNECTED):
+		return
+	
 	var message = {
 		"message" : Message.getLobbies,
 		"orgPeer" : self.id,
