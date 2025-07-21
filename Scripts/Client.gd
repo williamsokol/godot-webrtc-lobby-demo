@@ -44,7 +44,7 @@ func RTCPeerDisonnected(id):
 func DisconnectRTC():
 	var peers = multiplayer.get_peers()
 	for peerID in peers:
-		multiplayer.remove_peer(peerID)
+		rtcPeer.remove_peer(peerID)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -69,8 +69,9 @@ func _process(delta: float) -> void:
 				GameManager.Players = JSON.parse_string(data.players)
 				recivedLobbyValue.emit()
 			if data.message == Message.getLobbies:
-				for i in data.lobbies:
-					lobbies[i] = str_to_var(data.lobbies[i])
+				#for i in data.lobbies:
+					#lobbies[i] = str_to_var(data.lobbies[i])
+				lobbies = str_to_var(data.lobbies)
 				lobbyUpdate.emit(lobbies)
 			if data.message == Message.candidate:
 				if rtcPeer.has_peer(data.orgPeer):
@@ -185,6 +186,15 @@ func join_lobby(lobbyValue:String) -> void:
 	}
 	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
 	
+func exit_lobby(lobbyValue:String) -> void:
+	DisconnectRTC()
+	var message = {
+		"id" : id,
+		"message" : Message.exitLobby,
+		"lobbyValue" : lobbyValue
+	}
+	peer.put_packet(JSON.stringify(message).to_utf8_buffer())
+
 func _on_get_lobby_button_down() -> void:
 	if (peer.get_connection_status() != peer.CONNECTION_CONNECTED):
 		return

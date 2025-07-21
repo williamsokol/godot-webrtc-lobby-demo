@@ -31,16 +31,18 @@ func _process(delta: float) -> void:
 			
 			if data.message == Message.lobby:
 				JoinLobby(data)
+			if data.message == Message.exitLobby:
+				ExitLobby(data)
 			if data.message == Message.offer || data.message == Message.answer || data.message == Message.candidate:
 				print("source id is " + str(data.orgPeer))
 				sendToPlayer(data.peer,data)
 			if data.message == Message.getLobbies:
 				var serialziedLobbies:Dictionary = {}
 				for i in lobbies:
-					serialziedLobbies[i] = lobbies[i].to_dict()
+					serialziedLobbies[i] = var_to_str(lobbies[i]) 
 				var message = {
 					"message" : Message.getLobbies,
-					"lobbies" : serialziedLobbies
+					"lobbies" : var_to_str(lobbies) 
 				}
 				sendToPlayer(data.orgPeer,message)
 				pass
@@ -94,7 +96,18 @@ func JoinLobby(user):
 		"lobbyValue" : user.lobbyValue
 	}
 	sendToPlayer(user.id,data)
+
+func ExitLobby(user):
+	var lobby:Lobby = lobbies[user.lobbyValue]
+	lobby.Players.erase(int(user.id))
+	if(lobby.Players.size() == 0):
+		print("Closing Lobby")
+		lobbies.erase(lobby.LobbyValue)
+	else:
+		lobby.HostID = lobby.Players[lobby.Players.keys()[0]].id
 	
+	pass
+
 func sendToPlayer(userId,data):
 	peer.get_peer(userId).put_packet(JSON.stringify(data).to_utf8_buffer())
 	

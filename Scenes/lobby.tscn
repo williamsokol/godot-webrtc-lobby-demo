@@ -24,7 +24,7 @@ border_width_bottom = 10
 border_color = Color(1, 1, 1, 0.137255)
 corner_detail = 1
 
-[node name="Control" type="Control" node_paths=PackedStringArray("playerSlotContainer")]
+[node name="Control" type="Control" node_paths=PackedStringArray("devPanel", "Buttons", "playerSlotContainer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +32,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_u1o2k")
+devPanel = NodePath("Developer PanelContainer")
+Buttons = [NodePath("Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer/StartGame"), NodePath("Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/Back Panel/MarginContainer/PanelContainer/MarginContainer/PanelContainer/CenterContainer/MarginContainer/VBoxContainer/Back")]
 lobbySlot = ExtResource("2_avk8s")
 playerSlotContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer")
 

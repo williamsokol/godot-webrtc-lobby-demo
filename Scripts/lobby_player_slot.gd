@@ -25,6 +25,13 @@ func SetPlayer(p:Player):
 func _process(delta: float) -> void:
 	pass
 	
+func resetSlot():
+	player = null
+	playerName.set_item_text(0,str("Player Name"))
+	playerName.select(1)
+	color.select(0)
+	ping.text = str("Ping")
+	
 static func new_lobby_player_slot(p:Player = null):
 	var ps = playerSlot.instantiate()
 	ps.player = p

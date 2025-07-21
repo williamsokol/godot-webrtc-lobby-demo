@@ -4,16 +4,23 @@ extends Control
 @export var lobbyContainer:VBoxContainer
 @export var searchBar:LineEdit
 @export var gameInfoPanel:LobbyGameInfoPanel
+
+@export var showDevPanel:bool
+@export var devPanel:PanelContainer
+
 var selectedLobby:Lobby
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	devPanel.visible = showDevPanel
 	await GameManager.is_node_ready()
-	
 	client.lobbyUpdate.connect(UpdateLobbies)
 	
-	await client.connectedToWSServer
+	if client.peer.get_connection_status() != client.peer.CONNECTION_CONNECTED:  
+		await client.connectedToWSServer
+	#await get_tree().create_timer(1).timeout
 	client._on_get_lobby_button_down()
+
 	pass # Replace with function body.
 
 func UpdateLobbies(lobbies):

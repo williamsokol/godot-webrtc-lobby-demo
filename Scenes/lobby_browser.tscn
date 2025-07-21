@@ -19,7 +19,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucf6i"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar", "gameInfoPanel")]
+[node name="Control" type="Control" node_paths=PackedStringArray("lobbyContainer", "searchBar", "gameInfoPanel", "devPanel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,6 +30,7 @@ script = ExtResource("1_ecbm3")
 lobbyContainer = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/VSplitContainer/PanelContainer/VSplitContainer/MarginContainer/ScrollContainer/VBoxContainer")
 searchBar = NodePath("Main Panel/MarginContainer/HSplitContainer/Left PanelContainer/VSplitContainer/ActiveLobbies Panel/MarginContainer/VSplitContainer2/PanelContainer/MarginContainer/HBoxContainer/LineEdit")
 gameInfoPanel = NodePath("Main Panel/MarginContainer/HSplitContainer/Right Panel/VSplitContainer/LobbyGameInfoPanel")
+devPanel = NodePath("Main Panel/Developer PanelContainer")
 
 [node name="Main Panel" type="Panel" parent="."]
 layout_mode = 1

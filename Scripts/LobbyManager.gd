@@ -7,35 +7,44 @@ var players:Array[Player] = []
 var player:Player
 var isHost:bool = false
 
+@export var showDevPanel:bool
+@export var devPanel:PanelContainer
+
+@export var Buttons:Array[Button]
 @export var lobbySlot:PackedScene
 @export var playerSlotContainer:VBoxContainer
 
 var last_ping_time
 
 func _ready() -> void:
+	devPanel.visible = showDevPanel
+	$MultiplayerSpawner.spawned.connect(onLobbySlotSpawned)
+	setUpLobby()
+func setUpLobby() -> void:
 	player = GameManager.client.player
 	if(GameManager.LobbyInfo.has("currentLobby")):
 		lobby = GameManager.LobbyInfo["currentLobby"]
 	else:
 		lobby = Lobby.new(123,"Testing")
 		
-	$MultiplayerSpawner.spawned.connect(onLobbySlotSpawned)
 	$MultiplayerSpawner.set_multiplayer_authority(lobby.HostID)
 	if(lobby.HostID == player.id):
 		isHost = true
+		lobbySlots.clear()
 		for slot in range(lobby.LobbyMax):
 			var ps = lobbySlot.instantiate()
 			playerSlotContainer.add_child(ps,true)
 			lobbySlots.append(ps)
 	else:
+		PauseLobby(multiplayer.peer_connected)
 		await multiplayer.peer_connected
 	# get player infos and fill out lobby
 	GetPlayerOrder()
-	
 func onLobbySlotSpawned(ps):
 	lobbySlots.append(ps)
 	
 func GetPlayerOrder():
+	print("getting player order")
 	#find the host
 	RequestPlayerOrder.rpc_id(lobby.HostID,var_to_str(player) )
 	
@@ -90,8 +99,9 @@ func print_ping(pli):
 func _on_start_game_button_down(serverApproval = false) -> void:
 	#disable multiplayer synchronizers
 	if(serverApproval == false):
-		DeactivateLobby.rpc(_on_start_game_button_down)
+		DeactivateLobby.rpc()
 	else:
+		PauseLobby(get_tree().create_timer(1).timeout)
 		await get_tree().create_timer(1).timeout
 		GameManager.client._on_button_button_down()
 		
@@ -99,31 +109,79 @@ func _on_start_game_button_down(serverApproval = false) -> void:
 	##print("waited")
 	
 @rpc("any_peer","call_local")
-func DeactivateLobby(callback):
+func DeactivateLobby():
 	for l in lobbySlots:
 		l.ms.public_visibility = false
 	if(isHost):
 		await get_tree().create_timer(1).timeout
 		for l in lobbySlots:
 			l.queue_free()
-		callback.rpc_id(multiplayer.get_remote_sender_id(),true)
+		_on_start_game_button_down.rpc_id(multiplayer.get_remote_sender_id(),true)
 	
 
 func _on_back_button_down() -> void:
 	
 	#check if host
 	if (player.id == lobby.HostID):
-		print("host should not leave")
+		#make new host
+		if(players.size() > 1):
+			print("assigning new host")
+			var newHost = players[1]
+			setNewHost.rpc(var_to_str(newHost))
+			await get_tree().create_timer(1).timeout
+			GameManager.client.exit_lobby(lobby.LobbyValue)
+			lobby.HostID = newHost.id	
+		else:
+			GameManager.client.exit_lobby(lobby.LobbyValue)
 	else:
+		lobbySlots[player.lobbyIndex].set_multiplayer_authority(lobby.HostID)
+		disconnectPlayer.rpc(var_to_str(player))
+		await get_tree().create_timer(1).timeout 
+		GameManager.client.exit_lobby(lobby.LobbyValue)
+		
 		#diconnect from peers and inform them about it
-		disconnectPlayer.rpc(player)
 	
 	get_tree().change_scene_to_file("res://Scenes/lobby_browser.tscn")
 	# 
 	pass # Replace with function body.
 @rpc("any_peer")
-func disconnectPlayer(p):
-	print("leaving lobby")
+func disconnectPlayer(pString:String):
+	var p:Player = str_to_var(pString)
+	if(isHost):
+		
+		lobbySlots[p.lobbyIndex].set_multiplayer_authority(lobby.HostID)
+		lobbySlots[p.lobbyIndex].resetSlot()
+		players.erase(p)
+		pass
 	# clear player lobby slot and tell client side maybe?
-	
+@rpc("any_peer","call_local")
+func setNewHost(newHostStr:String):
+	var newHost = str_to_var(newHostStr)
+	$MultiplayerSpawner.set_multiplayer_authority(newHost.id)
+	for i in lobbySlots:
+		if i.get_multiplayer_authority() == lobby.HostID:
+			i.set_multiplayer_authority(newHost.id)
+	if(lobby.HostID == player.id):
+		$MultiplayerSpawner.set_multiplayer_authority(newHost.id)
+		for i in lobbySlots:
+			i.set_multiplayer_authority(newHost.id)
+	if(newHost.id == player.id):
+		print(lobbySlots)
+		lobby.HostID = newHost.id
+		isHost = true
+		await multiplayer.peer_disconnected
+		await get_tree().create_timer(1).timeout
+		setUpLobby()
+		#for i in lobbySlots:
+			##i.ms.public_visibility = false
+			##i.ms.set_visibility_for(lobby.HostID,false)
+	print("ji")
+
+@rpc("any_peer","call_local")
+func PauseLobby(unpuaseSignal):
+	for b in Buttons:
+		b.disabled = true
+	await unpuaseSignal
+	for b in Buttons:
+		b.disabled = false
 	

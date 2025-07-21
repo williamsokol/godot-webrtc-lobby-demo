@@ -2,7 +2,9 @@ extends Node
 
 enum Message{
 	id,
-	join,
+	joinLobby,
+	exitLobby,
+	getNewLobbyHost,
 	userConnected,
 	userDisconnected,
 	lobby,

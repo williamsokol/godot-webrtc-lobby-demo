@@ -23,23 +23,3 @@ func AddPlayer(id:int, name):
 	}
 	return Players[id]
 	
-func to_dict():
-	return var_to_str(self)
-	return {
-		"HostID": HostID,
-		"Map" : Map,
-		"GameName" : GameName,
-		"Players": Players,
-		"LobbyValue" : LobbyValue,
-		"LobbyMax": LobbyMax
-		
-	}
-
-static func from_dict(data: Dictionary) -> Lobby:
-	var lobby = Lobby.new(data["HostID"],data.LobbyValue)
-	lobby.Map = data["Map"]
-	lobby.GameName = data["GameName"]
-	lobby.Players = data["Players"]
-	lobby.LobbyValue = data["LobbyValue"]
-	lobby.LobbyMax = data["LobbyMax"]
-	return lobby
